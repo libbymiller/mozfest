@@ -9,9 +9,10 @@ import glob
 import time
 
 command = "raspistill -tl 1000 -n  -o /run/shm/image%d.jpg -w 320 -h 240"
-#ip = "192.168.1.10"
-ip = "192.168.0.118"
+ip = "192.168.1.10"
+source = "moz1"
 p=subprocess.Popen(command,shell=True)
+
 
 while(True):
   if(p.poll() is not None):
@@ -24,7 +25,7 @@ while(True):
        print "time diff"
        print int(time.time()) -tt
        if(int(time.time()) -tt < 10 ):
-         cmd2 = "curl http://"+ip+":3030/image -F my_file=@\""+imagefile+"\" -F \"name="+str(tt)+"\""
+         cmd2 = "curl http://"+ip+":3030/image -F my_file=@\""+imagefile+"\" -F \"name="+str(tt)+"&source="+source"\""
          print cmd2
          ppp=subprocess.Popen(cmd2,shell=True)
          time.sleep(1)

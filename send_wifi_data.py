@@ -9,20 +9,17 @@ import glob
 import time
 
 
+source = "moz1"
 to_send_power = {}
 to_send_time = {}
 last_time_seen = int(time.time())
 last_seen_anything = 100
-ip = "192.168.0.118"
-#ip = "192.168.1.10"
+ip = "192.168.1.10"
 exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29"]
 
 for line in fileinput.input():
     pass
-    
-    #line = " (not associated)   18:34:51:01:F4:32  -39    0 - 1      0       20 "
-    # just send everything    
-    
+
     if(re.search('  \w\w\:\w\w', line)):
         arr = re.split('  ',line)
         power = int(arr[2])
@@ -42,7 +39,7 @@ for line in fileinput.input():
             count = 0
             for item in to_send_time:           
 
-             data_str = data_str + "{\"id\": \""+item+"\", \"time\": \""+to_send_time[item]+"\", \"power\": \""+to_send_power[item]+"\"}"
+             data_str = data_str + "{\"source\":\""+source+"\",\"id\": \""+item+"\", \"time\": \""+to_send_time[item]+"\", \"power\": \""+to_send_power[item]+"\"}"
              if(count < len(to_send_time)-1):
                 data_str = data_str +","
              count=count+1
