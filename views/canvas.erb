@@ -1,0 +1,133 @@
+<html>
+ <style>
+
+  </style>
+<body>
+<canvas id="canvas" width="800" height="800">
+  Sorry, your browser doesn't support the &lt;canvas&gt; element.
+</canvas>
+
+  <div id="message"></div>
+  <script type="text/javascript"
+        src="http://localhost:9292/faye/client.js"></script>
+  <script>
+   var colours = ["red","blue","green","orange","yellow","brown","black","purple","cyan"];
+   var last_col = -1;
+   var id_colours = {};
+   //keep a list of the last 30 and redraw the canvas each time 
+   var stored = [];   
+   var canvas_width = 800;
+   var canvas_height = 800;
+   var ctx = null;
+
+   var canvas = document.getElementById('canvas');
+   if (canvas.getContext) {
+        ctx = canvas.getContext('2d');
+   }
+
+
+   function redraw(){
+     if(ctx != null){
+        ctx.clearRect(0,0,canvas_width,canvas_height);
+
+        if(stored.length==0){ return; }
+
+        // redraw each stored line
+        for(var i=0; i < stored.length; i++){ 
+            ctx.beginPath();
+            ctx.arc(stored[i].centreX, stored[i].centreY, stored[i].radius, 0, 2 * Math.PI, false);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = stored[i].colour;
+            ctx.stroke();
+        }
+      }
+    }
+
+
+      function draw(x,id, source) {
+            var colour = id_colours[id];
+            if(colour==null){
+              var count = last_col + 1;
+              console.log("count "+count);
+              if(count > colours.length){
+                count = 0;
+              }                        
+              colour = colours[count];
+              last_col = count;
+              id_colours[id] = colour;
+            }
+            var centreX, centreY, radius;
+            if(source=="moz1"){
+                centreX = 200;
+                centreY = 0;
+            }else 
+            if(source=="moz2"){
+                centreX = 400;
+                centreY = 400;
+            }else 
+            if(source=="moz3"){
+                centreX = 0;
+                centreY = 400;
+            }
+
+            var radius = (Math.pow(Math.E,((x+50)/-15)))*100;
+//            var radius = (Math.pow(Math.E,((x+40)/-14)))*100;
+            //if(!stored[id]){
+              //stored[id] = {};
+            //}
+
+            //remove anything that's too old
+            console.log(stored);
+            for(var x=0; x< stored.length; x++){
+
+                var d = Date.now();
+                var dd = stored[x]["last_seen"];
+                if(d - dd > 2000){
+                    console.log("deleting ");
+                    stored.splice(x, 1);
+                }
+
+            }
+
+//            if(id=="14:10:9F:F3:5E:56"){ //my lappy
+//            if(id=="00:C1:41:17:0C:F6" || id=="00:0F:13:29:0A:43"){ // moz 2/ 3
+            if(id=="18:34:51:01:F4:32"){ //my phone
+              console.log("drawing circle from "+centreX+"  radius "+radius+" x is "+x+" id "+id+" colour "+colour+" source "+source+" time "+Date.now());
+//              stored[id][source] = {"centreX":centreX, "centreY": centreY, "radius":radius, "colour":colour, "last_seen":Date.now()};
+              stored.push({"centreX":centreX, "centreY": centreY, "radius":radius, "colour":colour, "last_seen":Date.now()});
+            }
+            redraw();
+      }
+
+      //faye stuff
+      var client = new Faye.Client("http://localhost:9292/faye");
+      var subscription = client.subscribe('/foo', function(message) {
+           console.log(message);
+           var host = null;
+           for (var key in message){
+             if(key=="host"){
+               host = message[key];
+             }else{
+               var value = message[key];
+               if(value < 0){
+                 var x = value;
+                 var source = "moz1";
+                 if(host.match("moz2")){ 
+                   source = "moz2";
+                 }
+                 if(host.match("moz3")){
+                   source = "moz3";
+                 }
+//                 console.log("SOURCE "+source);
+                 draw(x,key,source);
+               }
+             }
+           }
+           //document.getElementById("message").innerHTML = "id "+id+" power "+power;
+           
+
+      });
+  </script>
+
+</body>
+</html>
