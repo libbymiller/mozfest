@@ -7,7 +7,10 @@ foo=$(hostname -I)
 
 # start up airmon and airodump
 cd /home/pi/mozfest/;
+
 sudo rm nohup.out
+sudo mv airodump.log airodump.log.1
+
 sudo airmon-ng check kill;
 sudo airmon-ng start wlan0;
 sudo airodump-ng mon0 --channel 11 --berlin 2  2>&1  | ./send_wifi_data.py 2>&1 >  airodump.log &
@@ -24,8 +27,6 @@ echo $foo
 sudo mv wifi.log wifi.log.1
 sudo rm wifi.log
 
-sudo mv airodump.log airodump.log.1
-sudo rm airodump.log
 
 # start up the image sender
 cd /home/pi/mozfest;
