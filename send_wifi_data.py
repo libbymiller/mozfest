@@ -14,7 +14,8 @@ to_send_power = {}
 to_send_time = {}
 last_time_seen = int(time.time())
 last_seen_anything = 100
-ip = "192.168.1.10"
+#ip = "192.168.1.10"
+ip = "10.0.0.200"
 exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29"]
 
 for line in fileinput.input():

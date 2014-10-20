@@ -5,6 +5,8 @@ sudo raspi-config
 
 sudo apt-get update && sudo apt-get upgrade -y
 
+== For the wifi stalkers ==
+
 #installing airodump-ng
 
 wget http://download.aircrack-ng.org/aircrack-ng-1.2-beta3.tar.gz
@@ -17,7 +19,6 @@ sudo make install
 # install this
 git clone https://github.com/libbymiller/mozfest
 cd mozfest
-bundle install
 
 #add init.d
 
@@ -36,6 +37,13 @@ network={
     ssid="XXX"
     psk="XXX"
 }
+
+== For the collector ==
+
+git clone https://github.com/libbymiller/mozfest
+cd mozfest
+sudo gem install bundler
+bundle install
 
 
 

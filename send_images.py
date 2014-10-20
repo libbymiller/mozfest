@@ -9,7 +9,8 @@ import glob
 import time
 
 command = "raspistill -tl 1000 -n  -o /run/shm/image%d.jpg -w 320 -h 240"
-ip = "192.168.1.10"
+#ip = "192.168.1.10"
+ip = "10.0.0.200"
 source = "moz1"
 p=subprocess.Popen(command,shell=True)
 
