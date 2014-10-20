@@ -16,7 +16,7 @@ last_time_seen = int(time.time())
 last_seen_anything = 100
 #ip = "192.168.1.10"
 ip = "10.0.0.200"
-exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29"]
+exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29","00:C1:41:17:12:C2"]
 
 for line in fileinput.input():
     pass
@@ -45,7 +45,7 @@ for line in fileinput.input():
                 data_str = data_str +","
              count=count+1
             data_str = data_str+"]"
-            cmd2 = "curl -X POST http://"+ip+":3030/metadata -H 'Content-Type: application/json' -d '{\"data\": "+data_str+"}'"
+            cmd2 = "curl -X POST http://"+ip+":8080/metadata -H 'Content-Type: application/json' -d '{\"data\": "+data_str+"}'"
             print cmd2
             ppp=subprocess.Popen(cmd2,shell=True)
           last_time_seen = int(time.time())

@@ -26,7 +26,7 @@ while(True):
        print "time diff"
        print int(time.time()) -tt
        if(int(time.time()) -tt < 10 ):
-         cmd2 = "curl http://"+ip+":3030/image -F my_file=@\""+imagefile+"\" -F \"name="+str(tt)+"&source="+source"\""
+         cmd2 = "curl http://"+ip+":8080/image -F my_file=@\""+imagefile+"\" -F \"name="+str(tt)+"\" -F \"source="+source+"\""
          print cmd2
          ppp=subprocess.Popen(cmd2,shell=True)
          time.sleep(1)

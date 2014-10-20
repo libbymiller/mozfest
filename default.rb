@@ -18,7 +18,7 @@ class MyApp < Sinatra::Base
   set :public_dir, 'public'
 
   before do
-    client = Faye::Client.new('http://localhost:9292/faye')
+    client = Faye::Client.new('http://10.0.0.200:9292/faye')
 
 #    client.subscribe('/foo') do |message|
 #      puts "got message"

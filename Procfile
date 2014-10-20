@@ -1,2 +1,2 @@
-app: rackup config.ru -s thin -p 3030 -E production
-faye: rackup faye.ru -s thin -p 9292 -E production
+faye: rackup faye.ru -s thin -p 9291 -E production
+app: rackup config.ru -s thin -p 8081 -E production

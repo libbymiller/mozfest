@@ -40,6 +40,14 @@ network={
 
 == For the collector ==
 
+use a radiodan base image
+
+mkdir public
+mkdir public/data
+
+replace /etc/init.d/wpa-cli-web with the one in this directory
+cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
+
 git clone https://github.com/libbymiller/mozfest
 cd mozfest
 sudo gem install bundler
@@ -47,4 +55,4 @@ bundle install
 
 foreman start
 
-
+connect to http://10.0.0.200:8080
