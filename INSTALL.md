@@ -45,5 +45,6 @@ cd mozfest
 sudo gem install bundler
 bundle install
 
+foreman start
 
 
