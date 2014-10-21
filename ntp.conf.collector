@@ -1,0 +1,12 @@
+# /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
+restrict default kod notrap nomodify
+restrict -6 default kod notrap nomodify 
+
+server 0.debian.pool.ntp.org iburst
+server 127.127.1.0
+fudge 127.127.1.0 stratum 10
+
+
+driftfile /var/lib/ntp/ntp.drift
+broadcastdelay	0.008
+keys	/etc/ntp/keys
