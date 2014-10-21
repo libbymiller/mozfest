@@ -3,16 +3,19 @@
   </style>
   <div id="message">foo</div>
   <script type="text/javascript"
-        src="http://10.0.0.200:9292/faye/client.js"></script>
+        src="http://192.168.2.23:9292/faye/client.js"></script>
+<!--        src="http://10.0.0.200:9292/faye/client.js"></script>-->
   <script>
       //faye stuff
-      var client = new Faye.Client("http://10.0.0.200:9292/faye");
+//      var client = new Faye.Client("http://10.0.0.200:9292/faye");
+      var client = new Faye.Client("http://192.168.2.23:9292/faye");
       var subscription = client.subscribe('/foo', function(message) {
            console.log(message);
            var old_data = document.getElementById("message").innerHTML;
            var img_str = message.image;
            var friends = message.friends;
-           document.getElementById("message").innerHTML = "<img src='"+img_str+"' width=\"300px\"/> <p>"+message.id+": power "+message.power+"<br />"+friends.join(" | ")+"</p>\n<br/>"+old_data;
+           
+           document.getElementById("message").innerHTML = "<img src='"+img_str+"' width=\"300px\"/> <p>"+message.id+": power "+message.power+"<br />"+friends+"</p>\n<br/>"+old_data;
       });
 
   </script>
