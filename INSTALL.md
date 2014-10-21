@@ -5,7 +5,7 @@ sudo raspi-config
 
 sudo apt-get update && sudo apt-get upgrade -y
 
-== For the wifi stalkers ==
+== Emitters ==
 
 #installing airodump-ng
 
@@ -21,7 +21,6 @@ git clone https://github.com/libbymiller/mozfest
 cd mozfest
 
 #add init.d
-
 sudo cp init_d_wifi_stalker /etc/init.d/
 sudo chmod 755 /etc/init.d/wifi_stalker
 sudo chown root:root /etc/init.d/wifi_stalker
@@ -32,14 +31,20 @@ sudo update-rc.d wifi_stalker enable
 #add network to
 #/etc/wpa_supplicant.conf
 
-
 network={
     ssid="XXX"
     psk="XXX"
 }
 
 sudo cp ntp.conf.emitter /etc/ntp.conf
-edit /etc/rc.local @@fix me
+
+#edit /etc/rc.local to include
+
+( /etc/init.d/ntp stop
+until ping -nq -c3 10.0.0.200; do
+  echo "waiting for network..."
+done
+ntpdate -b -u 10.0.0.200 /etc/init.d/ntp start ) &
 
 reboot
 
@@ -47,24 +52,22 @@ reboot
 
 use a radiodan base image
 
-mkdir public
-mkdir public/data
-mkdir notpublic
-mkdir notpublic/data
-mkdir db
-
-sudo cp ntp.conf.collector /etc/ntp.conf
-
 install sqlite3
-
-replace /etc/init.d/wpa-cli-web with the one in this directory
-cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
 
 git clone https://github.com/libbymiller/mozfest
 cd mozfest
+
+# collector controls the time
+sudo cp ntp.conf.collector /etc/ntp.conf
+
+# we replace radiodan default web page with ours
+sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
+sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
+
 sudo gem install bundler
 bundle install
 
-foreman start
+reboot
 
+connect to radiodan-configuration
 connect to http://10.0.0.200:8080/
