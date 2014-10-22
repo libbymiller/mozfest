@@ -30,6 +30,7 @@ install airodump-ng
 
 install this
 
+    cd /home/pi/
     git clone https://github.com/libbymiller/mozfest
     cd mozfest
 
