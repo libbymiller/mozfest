@@ -1,4 +1,4 @@
-# Resize and reboot, upgrade apt-get
+# For all of them
 
     sudo raspi-config
 
@@ -8,7 +8,7 @@ reboot
 
     sudo apt-get update && sudo apt-get upgrade -y
 
-# Emitters
+# For the emitters
 
 install airodump-ng
 
