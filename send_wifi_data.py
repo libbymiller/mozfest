@@ -8,8 +8,12 @@ import os
 import glob
 import time
 import sys
+import socket
 
-source = "moz1"
+source = socket.gethostname()
+            
+print source
+
 to_send_power = {}
 to_send_time = {}
 last_time_seen = int(time.time())

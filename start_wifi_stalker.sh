@@ -23,11 +23,12 @@ sudo dhclient wlan1;
 sleep 5
 echo $foo
 
-# sort out logs
-sudo mv wifi.log wifi.log.1
-sudo rm wifi.log
+## not needed for the displayer
 
+# sort out logs
+#sudo mv wifi.log wifi.log.1
+#sudo rm wifi.log
 
 # start up the image sender
-cd /home/pi/mozfest;
-sudo ./send_images.py 2>&1 > wifi.log &
+#cd /home/pi/mozfest;
+#sudo ./send_images.py 2>&1 > wifi.log &
