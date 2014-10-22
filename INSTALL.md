@@ -35,7 +35,7 @@ install this
 
 add to init.d
 
-    sudo cp init_d_wifi_stalker /etc/init.d/
+    sudo cp init_d_wifi_stalker /etc/init.d/wifi_stalker
     sudo chmod 755 /etc/init.d/wifi_stalker
     sudo chown root:root /etc/init.d/wifi_stalker
 
