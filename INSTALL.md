@@ -61,7 +61,8 @@ edit /etc/rc.local to include
       until ping -nq -c3 10.0.0.200; do
       echo "waiting for network..."
     done
-    ntpdate -b -u 10.0.0.200 /etc/init.d/ntp start ) &
+    ntpdate -b -u 10.0.0.200 
+    /etc/init.d/ntp start ) &
 
 reboot
 
