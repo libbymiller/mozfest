@@ -1,5 +1,13 @@
 # For all of them
 
+Make a new blank card with wheezy
+
+    diskutil list
+    diskutil unmountDisk /dev/diskn
+    sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/disk2
+    
+connect to the pi and do
+
     sudo raspi-config
 
 resize, enable camera, overclock to 900 (medium)
@@ -56,6 +64,14 @@ edit /etc/rc.local to include
     ntpdate -b -u 10.0.0.200 /etc/init.d/ntp start ) &
 
 reboot
+
+# For the displayer
+
+As emitter but
+
+* set hostname to mozdisplayer
+* comment out the last two lines in start_wifi_stalker.sh
+*
 
 # For the collector 
 
