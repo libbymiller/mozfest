@@ -38,7 +38,27 @@ network={
     psk="XXX"
 }
 
+sudo cp ntp.conf.emitter /etc/ntp.conf
+edit /etc/rc.local @@fix me
+
+reboot
+
 == For the collector ==
+
+use a radiodan base image
+
+mkdir public
+mkdir public/data
+mkdir notpublic
+mkdir notpublic/data
+mkdir db
+
+sudo cp ntp.conf.collector /etc/ntp.conf
+
+install sqlite3
+
+replace /etc/init.d/wpa-cli-web with the one in this directory
+cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
 
 git clone https://github.com/libbymiller/mozfest
 cd mozfest
@@ -47,4 +67,4 @@ bundle install
 
 foreman start
 
-
+connect to http://10.0.0.200:8080/

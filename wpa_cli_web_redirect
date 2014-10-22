@@ -1,0 +1,13 @@
+server {
+  listen 9292;
+  location / {
+    proxy_pass	http://localhost:9291;
+  }
+}
+
+server {
+  listen 8080;
+  location / {
+    proxy_pass	http://localhost:8081;
+  }
+}
