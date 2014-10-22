@@ -20,7 +20,7 @@ reboot
 
 install airodump-ng
 
-    sudo apt-get install libnl-dev libssl-dev iw
+    sudo apt-get install libnl-dev libssl-dev iw avahi-daemon
  
     wget http://download.aircrack-ng.org/aircrack-ng-1.2-beta3.tar.gz
     tar -zxvf aircrack-ng-1.2-beta3.tar.gz
@@ -103,3 +103,4 @@ reboot
 
 connect to radiodan-configuration
 connect to http://10.0.0.200:8080/
+
