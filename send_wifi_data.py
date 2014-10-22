@@ -7,7 +7,7 @@ import subprocess
 import os
 import glob
 import time
-
+import sys
 
 source = "moz1"
 to_send_power = {}
@@ -28,14 +28,15 @@ for line in fileinput.input():
         tt = int(time.time())
         if(power > -51 and power!=-1 and this_id not in exclusions):
             print "this_id "+str(this_id)+" power "+str(power)
-            print "updating last seen anything to "+str(tt)         
+#            sys.stdout.write('.')
+#            print "updating last seen anything to "+str(tt)         
             to_send_power[this_id] = str(power)
             to_send_time[this_id] = str(tt)
             last_seen_anything = tt
 
         if((len(to_send_power) > 0) and int(time.time()) - last_time_seen > 10):
-          print "FOO "+str(time.time() - last_seen_anything)
           if(int(time.time()) - last_seen_anything < 12):#???
+            print "sending because "+str(time.time() - last_seen_anything)
             data_str = "["
             count = 0
             for item in to_send_time:           
@@ -48,4 +49,5 @@ for line in fileinput.input():
             cmd2 = "curl -X POST http://"+ip+":8080/metadata -H 'Content-Type: application/json' -d '{\"data\": "+data_str+"}'"
             print cmd2
             ppp=subprocess.Popen(cmd2,shell=True)
+#            sleep(1) 
           last_time_seen = int(time.time())
