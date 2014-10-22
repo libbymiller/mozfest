@@ -100,6 +100,7 @@ we replace radiodan default web page with ours
     sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
     sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
 
+@@add hostapd conf@@
 
 reboot
 
