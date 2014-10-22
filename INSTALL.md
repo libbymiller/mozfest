@@ -20,7 +20,7 @@ reboot
 
 install airodump-ng
 
-    sudo apt-get install libnl-dev libssl-dev iw avahi-daemon
+    sudo apt-get install libnl-dev libssl-dev iw avahi-daemon ntpdate
  
     wget http://download.aircrack-ng.org/aircrack-ng-1.2-beta3.tar.gz
     tar -zxvf aircrack-ng-1.2-beta3.tar.gz
@@ -51,7 +51,7 @@ add network to
       psk="XXX"
     }
 
-sort out the timing - emitters get their time form teh collector
+sort out the timing - emitters get their time from the collector
 
     sudo cp ntp.conf.emitter /etc/ntp.conf
 
