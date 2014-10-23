@@ -18,10 +18,12 @@ reboot
 
 # For the emitters
 
-install airodump-ng
+install prerequisites
 
     sudo apt-get install libnl-dev libssl-dev iw avahi-daemon ntpdate
- 
+
+install airodump-ng
+
     wget http://download.aircrack-ng.org/aircrack-ng-1.2-beta3.tar.gz
     tar -zxvf aircrack-ng-1.2-beta3.tar.gz
     cd aircrack-ng-1.2-beta3
@@ -30,6 +32,7 @@ install airodump-ng
 
 install this
 
+    cd /home/pi/
     git clone https://github.com/libbymiller/mozfest
     cd mozfest
 
@@ -42,9 +45,7 @@ add to init.d
     sudo update-rc.d wifi_stalker defaults
     sudo update-rc.d wifi_stalker enable
 
-add network to
-
-    /etc/wpa_supplicant.conf
+add network to /etc/wpa_supplicant.conf
 
     network={
       ssid="XXX"
@@ -99,6 +100,7 @@ we replace radiodan default web page with ours
     sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
     sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
 
+@@add hostapd conf@@
 
 reboot
 
