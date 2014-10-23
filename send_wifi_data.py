@@ -20,7 +20,7 @@ last_time_seen = int(time.time())
 last_seen_anything = 100
 #ip = "192.168.1.10"
 ip = "10.0.0.200"
-exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29","00:C1:41:17:12:C2", "00:C1:41:06:07:67"]
+exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29","00:C1:41:17:12:C2", "00:C1:41:17:0C:F6","00:C1:41:06:07:67"]
 
 for line in fileinput.input():
     pass
@@ -44,8 +44,17 @@ for line in fileinput.input():
             data_str = "["
             count = 0
             for item in to_send_time:           
+             item_sm = item[0:7]
+             item_sm = item_sm.replace(":","-")
+             cmd4 = "grep "+item_sm+" /home/pi/mozfest/oui_small.txt"
+             print cmd4
+             company_str = subprocess.check_output("grep '"+item_sm+"' /home/pi/mozfest/oui_small.txt", shell=True)
+             arr2 = re.split('\t',company_str)
+             company = arr2[2].rstrip()
+#             print ",,,"+arr2[2].rstrip()+"..."
 
-             data_str = data_str + "{\"source\":\""+source+"\",\"id\": \""+item+"\", \"time\": \""+to_send_time[item]+"\", \"power\": \""+to_send_power[item]+"\"}"
+             data_str = data_str + "{\"source\":\""+source+"\",\"id\": \""+item+"\", \"time\": \""+to_send_time[item]+"\", \"power\": \""+to_send_power[item]+"\", \"company\": \""+company+"\"}"
+
              if(count < len(to_send_time)-1):
                 data_str = data_str +","
              count=count+1
