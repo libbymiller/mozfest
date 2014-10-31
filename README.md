@@ -35,8 +35,10 @@ This really gave a sense of the volume of data and gave people souvenirs to take
 
 These technologies are used by companies to track us for commercial purposes. The ethical dilemma is one we face every time we go into a space 
 with tracking systems like this: do we enjoy the benefits of our mobile phone and be tracked, not knowing what data is being held by whom or used 
-for what? or do we give up our phones? If you visited us and we captured images of you or some of your data, unobfuscated that data never left 
-the private network or the machines we used, and has since been deleted. But how far do we trust organisations to do this?
+for what? or do we give up our phones? 
+
+If you visited us and we captured images of you or some of your data, unobfuscated data never left the private network or the machines we 
+used, and has since been deleted. But how far do we trust organisations to do this?
 
 
 ## References
