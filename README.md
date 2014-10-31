@@ -1,4 +1,4 @@
-= Mozfest Prototype = 
+# Mozfest Prototype 
 
 This is experimental code developed by BBC R&D for Ian Forrester's Ethical Dilemma cafe at Mozfest 2014, a collaboration between Libby Miller, 
 Jasmine Cox and Andrew Nicolaou.
@@ -25,7 +25,7 @@ We had a final Pi just to display the results in a browser on a screen, like thi
 
 ![Sample snapshot](/doc/images/snap1.jpg "Sample snapshot")
 
-- but the part that really provoked discussion by creating a noisy, very visible result of all this silent activity by [turning the images into ascii 
+But the part that really provoked discussion by creating a noisy, very visible result of all this silent activity by [turning the images into ascii 
 art and sending them to a dot matrix printer](https://gist.github.com/andrewn/294d9483f5bd2ef11055). The continuous paper from the refurbished 
 printer sprawled over the mezzanine floor we were on and down to the ground floor:
 
@@ -39,7 +39,8 @@ for what? or do we give up our phones? If you visited us and we captured images 
 the private network or the machines we used, and has since been deleted. But how far do we trust organisations to do this?
 
 
-== References ==
+## References
+
 * ["City of London calls halt to smartphone tracking bins"](http://www.bbc.co.uk/news/technology-23665490)
 * ["What's really happening with iOS 8 MAC address randomization?"](http://www.imore.com/closer-look-ios-8s-mac-randomization)
 * ["Shopping centres track customers with mobile technology"](http://www.telegraph.co.uk/finance/newsbysector/mediatechnologyandtelecoms/8995867/Shopping-centres-track-customers-with-mobile-technology.html)
