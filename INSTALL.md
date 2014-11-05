@@ -4,7 +4,7 @@ Make a new blank card with wheezy
 
     diskutil list
     diskutil unmountDisk /dev/diskn
-    sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/disk2
+    sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/diskn
     
 connect to the pi and do
 
