@@ -1,21 +1,52 @@
  <style>
-
+ body{
+   background-color: black;
+   color: white;
+ }
+ div{
+   padding:20px;
+ }
   </style>
-  <div id="message">foo</div>
+  <div id="message"></div>
   <script type="text/javascript"
-        src="http://192.168.2.23:9292/faye/client.js"></script>
-<!--        src="http://10.0.0.200:9292/faye/client.js"></script>-->
+        src="http://10.0.0.200:9292/faye/client.js"></script>
   <script>
+
       //faye stuff
-//      var client = new Faye.Client("http://10.0.0.200:9292/faye");
-      var client = new Faye.Client("http://192.168.2.23:9292/faye");
+      var client = new Faye.Client("http://10.0.0.200:9292/faye");
+//      var client = new Faye.Client("http://192.168.2.23:9292/faye");
       var subscription = client.subscribe('/foo', function(message) {
            console.log(message);
+
            var old_data = document.getElementById("message").innerHTML;
-           var img_str = message.image;
-           var friends = message.friends;
-           
-           document.getElementById("message").innerHTML = "<img src='"+img_str+"' width=\"300px\"/> <p>"+message.id+": power "+message.power+"<br />"+friends+"</p>\n<br/>"+old_data;
+           var str = "";
+           for(var i = 0; i< message.length; i++){
+             var m = message[i];
+             var img_str = m.images;
+             var friends = m.friends;
+             var power = m.power;
+             var mac = m.id;
+             var aps = m.aps;
+             var company = m.company;
+             var img_arr = img_str.split(",");
+             str = str+"<h1>"+mac+" ("+company+")</h1>";
+             str = str+"<h3>Distance "+power+", last seen: "+m.time+"</h3>";
+             if(aps && aps!=null && aps!=""){
+               str = str+"<h3>Other detected networks "+aps+"</h3>";
+             }
+             str = str +  "<p><div style=\"float:left\">Associates: <br />"+friends.split(",").join("<br />")+"</div></p>\n";
+             for(var i=0; i< img_arr.length; i++){
+               if(i==0){
+                 str = str + "<img src='"+img_arr[i]+"' width=\"600px\" style=\"float:left\" />"
+               }else{
+                 str = str + "<img src='"+img_arr[i]+"' width=\"300px\" style=\"float:left\" />"
+               }
+             }
+
+           }
+           document.getElementById("message").innerHTML = str;
+
+//           window.setTimeout(function(){document.getElementById("message").innerHTML = "<h1>Awaiting data....</h1>";}, 2000);
       });
 
   </script>

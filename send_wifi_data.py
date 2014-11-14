@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # read from stdin
+# Usage: sudo airodump-ng mon0 --channel 11 --berlin 2  2>&1  | ./send_wifi_data.py 2>&1 >  airodump.log &
 
 import fileinput
 import re
@@ -9,6 +10,7 @@ import glob
 import time
 import sys
 import socket
+import urllib
 
 source = socket.gethostname()
             
@@ -18,10 +20,23 @@ to_send_power = {}
 to_send_time = {}
 last_time_seen = int(time.time())
 last_seen_anything = 100
-#ip = "192.168.1.10"
 ip = "10.0.0.200"
-exclusions = ["00:0F:13:37:19:2E","7C:D1:C3:1E:4E:F6","00:0F:13:29:0B:92","FA:AD:4E:3D:EA:D9","7C:DD:90:44:13:29","00:C1:41:17:12:C2", "00:C1:41:17:0C:F6","00:C1:41:06:07:67"]
+port = "7070"
+exclusions = []
 
+# First check for exclusons by polling the collector
+f = urllib.urlopen("http://"+ip+":"+port+"/exclusions")
+# assumes one ip per line
+line = f.readline()
+while line:
+    i = line.rstrip()
+    if(i!=""):
+       exclusions.append(i)
+    line = f.readline()
+f.close()
+print exclusions
+
+# Then parse the 
 for line in fileinput.input():
     pass
 
@@ -35,26 +50,30 @@ for line in fileinput.input():
 
         this_id = str(arr[1].strip())
         tt = int(time.time())
-        if(power!="" and int(power) > -51 and int(power)!=-1 and this_id not in exclusions):
+        if(power!="" and int(power) > -51 and int(power)!=-1):
 
-          if  re.search('^CE:03', this_id) or re.search('^00:0F', this_id) or  re.search('^8A:A7', this_id) or re.search('^8A:A7', this_id) or re.search('^EC:55', this_id) or  re.search('^74:E5', this_id) or re.search('^A6:13', this_id) or  re.search('^94:EB', this_id) or  re.search('^B6:6A', this_id) :
-            print "do nothing"
+          if (this_id in exclusions):
+            #print "do nothing, excluded"
+            sys.stdout.write('-')
           else:
-            print "this_id "+str(this_id)+" power "+str(power)
-#            sys.stdout.write('.')
-#            print "updating last seen anything to "+str(tt)         
+            sys.stdout.write('.')
+            #print "found "+str(this_id)+" power "+str(power)
+            #print "updating last seen anything to "+str(tt)         
             to_send_power[this_id] = str(power)
             to_send_time[this_id] = str(tt)
             last_seen_anything = tt
 
         if((len(to_send_power) > 0) and int(time.time()) - last_time_seen > 10):
+
+          # send data every few seconds, to make sure we capture multiple devices
           if(int(time.time()) - last_seen_anything < 12):#???
-            print "sending because "+str(time.time() - last_seen_anything)
+            print "sending data because "+str(time.time() - last_seen_anything)
             data_str = "["
             count = 0
             for item in to_send_time:           
              item_sm = item[0:7]
              item_sm = item_sm.replace(":","-")
+             #find the company from the oui file
              cmd4 = "grep "+item_sm+" /home/pi/mozfest/oui_small.txt"
              print cmd4
              company = "unknown"
@@ -67,7 +86,6 @@ for line in fileinput.input():
              except Exception, f:
               print f
               pass
-#             print ",,,"+arr2[2].rstrip()+"..."
 
              data_str = data_str + "{\"source\":\""+source+"\",\"id\": \""+item+"\", \"time\": \""+to_send_time[item]+"\", \"power\": \""+to_send_power[item]+"\", \"company\": \""+company+"\", \"aps\":\""+aps+"\"}"
 
@@ -75,11 +93,28 @@ for line in fileinput.input():
                 data_str = data_str +","
              count=count+1
             data_str = data_str+"]"
-            cmd2 = "curl -X POST http://"+ip+":7070/metadata -H 'Content-Type: application/json' -d '{\"data\": "+data_str+"}'"
+
+            # send the data
+            cmd2 = "curl -X POST http://"+ip+":"+port+"/metadata -H 'Content-Type: application/json' -d '{\"data\": "+data_str+"}'"
             print cmd2
             ppp=subprocess.Popen(cmd2,shell=True)
-#            sleep(1) 
+
+          # update time last seen something
           last_time_seen = int(time.time())
+
+          # update exclusions
+          exclusions = []
+          f = urllib.urlopen("http://"+ip+":"+port+"/exclusions")
+          line = f.readline()
+          while line:
+             print line
+             ii = line.rstrip()
+             if(ii!=""):
+               exclusions.append(ii)
+             line = f.readline()
+          f.close()
+          print exclusions
+          
       except Exception, e:
         print e
         pass
