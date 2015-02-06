@@ -13,7 +13,7 @@ sudo mv airodump.log airodump.log.1
 
 sudo airmon-ng check kill;
 sudo airmon-ng start wlan0;
-sudo airodump-ng mon0 --channel 11 --berlin 2  2>&1  | ./send_wifi_data.py 2>&1 >  airodump.log &
+sudo airodump-ng mon0 --channel 11 --berlin 2  2>&1  | /home/pi/mozfest/send_wifi_data.py 2>&1 >  airodump.log &
 
 # sort out the networking to attach to known wifi networks on the other card
 sudo  wpa_supplicant -B -iwlan1 -c/etc/wpa_supplicant.conf -Dwext && dhclient wlan1;
