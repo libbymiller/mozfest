@@ -98,42 +98,7 @@ then
 
     sudo LOG_LEVEL=DEBUG ./provision avahi nginx wpa
 
-
-install sqlite3
-
-    sudo apt-get install sqlite3 libsqlite3-dev
-
-get this and install the ruby code
-
-    git clone https://github.com/libbymiller/mozfest
-    cd mozfest
-
-    sudo gem install bundler  --no-rdoc --no-ri
-    sudo gem install foreman --no-rdoc --no-ri
-
-    bundle install
-
-(bundle install takes ages on the pi)
-
-collector controls the time
-
-    sudo cp ntp.conf.collector /etc/ntp.conf
-
-we replace radiodan default web page with ours
-
-    sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
-    sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
-
-add the init.d scripts
-
-    sudo cp init_d_collector /etc/init.d/collector
-    sudo chmod 755 /etc/init.d/collector
-    sudo chown root:root /etc/init.d/collector
-
-    sudo update-rc.d collector defaults
-    sudo update-rc.d collector enable
-
-edit /etc/hostapd/hostapd.conf to make it create a wifi network
+edit /etc/hostapd/hostapd.conf to make it create a wifi network with a password
 
     sudo pico /etc/hostapd/hostapd.conf
 
@@ -149,11 +114,61 @@ edit /etc/hostapd/hostapd.conf to make it create a wifi network
     # makes the SSID visible and broadcasted
     ignore_broadcast_ssid=0
 
+install this code
+
+    git clone https://github.com/libbymiller/mozfest.git
+
+
+Now: unplug any ethernet, reboot, and check the network comes up.
+
+install sqlite3
+
+    sudo apt-get install sqlite3 libsqlite3-dev
+
+get this and install the ruby code
+
+    git clone https://github.com/libbymiller/mozfest
+    cd mozfest
+
+    sudo gem install bundler foreman --no-rdoc --no-ri
+
+    bundle install
+
+(bundle install takes ages on the pi)
+
+update the init.d script
+
+    sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
+
+we replace radiodan default web page with ours
+
+    sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
+
+collector controls the time, so we make it a local ntp server
+
+    sudo cp ntp.conf.collector /etc/ntp.conf
+
 change its name (not essential, but less confusing)
 
     sudo pico /etc/hostname
     sudo pico /etc/hosts
 
-and replaceing "raspberrypi" with e.g. "collector"
+and replacing "raspberrypi" with e.g. "collector"
 
 reboot
+
+What should happen is that a protected network called mozstalker should come up. If you connect to it and go to http://10.0.0.200:7070, you should see a blank page, which should update when there's an emitter around. Logs are in /var/log/radiodan/adhoc.log
+
+
+# For a printer
+
+    cd
+    sudo apt-get install jp2a
+    cd provision
+    sudo LOG_LEVEL=DEBUG ./provision node
+    cd ../mozfest
+    npm install faye es6-promise 
+
+then to test:
+
+    node main.js
