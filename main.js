@@ -1,6 +1,6 @@
-# based on and largely the same as  
-# https://gist.githubusercontent.com/andrewn/294d9483f5bd2ef11055/raw/4022ecd31e55722b1d9d013d4cec51180232b0d1/main.js
-# but for pi instead of windows
+// based on and largely the same as  
+// https://gist.githubusercontent.com/andrewn/294d9483f5bd2ef11055/raw/4022ecd31e55722b1d9d013d4cec51180232b0d1/main.js
+// but for pi instead of windows
 
 console.log('hello');
 
