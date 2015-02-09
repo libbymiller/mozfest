@@ -76,7 +76,28 @@ As emitter but
 
 # For the collector 
 
-use a radiodan base image
+    sudo apt-get update && sudo apt-get upgrade -y
+
+install the parts of radiodan we need:
+
+    git clone https://github.com/radiodan/provision.git
+
+    cd provision
+
+replace the contents of steps/wpa/install.sh
+
+with
+
+    sudo apt-get install -y --force-yes dnsmasq && \
+    sudo apt-get install -y --force-yes ruby1.9.1-dev hostapd=1:1.0-3+deb7u1 wpasupplicant && \
+    sudo gem install --no-ri --no-rdoc wpa_cli_web
+
+then
+
+    sudo mkdir /var/log/radiodan
+
+    sudo LOG_LEVEL=DEBUG ./provision avahi nginx wpa
+
 
 install sqlite3
 
@@ -87,8 +108,12 @@ get this and install the ruby code
     git clone https://github.com/libbymiller/mozfest
     cd mozfest
 
-    sudo gem install bundler
+    sudo gem install bundler  --no-rdoc --no-ri
+    sudo gem install foreman --no-rdoc --no-ri
+
     bundle install
+
+(bundle install takes ages on the pi)
 
 collector controls the time
 
@@ -99,16 +124,29 @@ we replace radiodan default web page with ours
     sudo cp wpa-cli-web /etc/init.d/wpa-cli-web 
     sudo cp wpa_cli_web_redirect /etc/nginx/sites-enabled/wpa_cli_web_redirect
 
-edit /etc/hostapd/hostapd.conf
+add the init.d scripts
+
+    sudo cp init_d_collector /etc/init.d/collector
+    sudo chmod 755 /etc/init.d/collector
+    sudo chown root:root /etc/init.d/collector
+
+    sudo update-rc.d collector defaults
+    sudo update-rc.d collector enable
+
+edit /etc/hostapd/hostapd.conf to make it create a wifi network
 
     sudo pico /etc/hostapd/hostapd.conf
 
-to change the broadcast ssid:
 
     ssid=mozstalker
+    interface=wlan0
+    driver=nl80211
+    hw_mode=g
+    channel=1
+    wpa=2
+    wpa_passphrase=xxxxxxx
+    wpa_key_mgmt=WPA-PSK
+    # makes the SSID visible and broadcasted
+    ignore_broadcast_ssid=0
 
 reboot
-
-connect to radiodan-configuration
-connect to http://10.0.0.200:8080/
-
