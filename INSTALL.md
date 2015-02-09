@@ -157,4 +157,4 @@ and replacing "raspberrypi" with e.g. "collector"
 
 reboot
 
-What should happen is that a protected network called mozstalker should come up. If you connect to it and go to http://10.0.0.200:7070, you shoudl see a blank page.
+What should happen is that a protected network called mozstalker should come up. If you connect to it and go to http://10.0.0.200:7070, you should see a blank page, which should update when there's an emitter around. Logs are in /var/log/radiodan/adhoc.log
