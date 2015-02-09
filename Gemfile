@@ -1,6 +1,6 @@
 ruby '1.9.3'
 
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 gem "sinatra"
 gem "sinatra-cross_origin"
 gem "thin"
