@@ -149,4 +149,11 @@ edit /etc/hostapd/hostapd.conf to make it create a wifi network
     # makes the SSID visible and broadcasted
     ignore_broadcast_ssid=0
 
+change its name (not essential, but less confusing)
+
+    sudo pico /etc/hostname
+    sudo pico /etc/hosts
+
+and replaceing "raspberrypi" with e.g. "collector"
+
 reboot
