@@ -1,9 +1,12 @@
+# based on and largely the same as  
+# https://gist.githubusercontent.com/andrewn/294d9483f5bd2ef11055/raw/4022ecd31e55722b1d9d013d4cec51180232b0d1/main.js
+# but for pi instead of windows
+
 console.log('hello');
 
 var faye = require('faye');
 
 var fs = require('fs');
-//var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 var path = require('path');
 var Promise = require('es6-promise').Promise;
@@ -14,9 +17,6 @@ var client = new faye.Client('http://10.0.0.200:9292/faye');
 
 client.subscribe('/foo', handle);
 
-	var print = path.resolve('print');
-	console.log('print', print);
-// sendPrint(path.resolve('./data/hello'));
 
 function msgContents(msg) {
 	return new Promise(function (resolve, reject) {
