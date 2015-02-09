@@ -3,7 +3,7 @@ require 'thin'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/cross_origin'
-require 'serialport'
+#require 'serialport'
 require 'json'
 require 'data_mapper'
 require 'dm-sqlite-adapter'
@@ -31,6 +31,7 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 Device.raise_on_save_failure = true
+Rack::Utils.multipart_part_limit = 0
 
 class MyApp < Sinatra::Base
   register Sinatra::CrossOrigin
